@@ -151,8 +151,14 @@ public class RomanArabicConverter {
      *             to be represented using Roman numerals
      */
     public static String toRoman(int input) throws ValueOutOfBoundsException {
+    	char descendingRoman = new char['Z', 'a', 'b', 'c'];
     	
-    	
+    	for(int i = 0; input > 0; i++){
+    		while(i < descendingRokman.length){
+    			ig()
+    		}
+    			
+    	}
     	
     	return "I";
     }
