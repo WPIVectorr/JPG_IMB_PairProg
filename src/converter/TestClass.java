@@ -11,13 +11,13 @@ public class TestClass {
 
 	@Test
 	public void correctInputRoman() throws MalformedNumberException {
-		System.out.println(RomanArabicConverter.toArabic("  MMM  "));
-		System.out.println(RomanArabicConverter.toArabic("ix"));
-		System.out.println(RomanArabicConverter.toArabic("xi"));
-		System.out.println(RomanArabicConverter.toArabic("mcm"));
-		System.out.println(RomanArabicConverter.toArabic("xlv"));
-		System.out.println(RomanArabicConverter.toArabic("ivi"));
-		System.out.println(RomanArabicConverter.toArabic(""));
+		assertEquals(RomanArabicConverter.RomanArabicConverter("  MMM  "), "3000");
+		assertEquals(RomanArabicConverter.RomanArabicConverter("ix"),"9");
+		assertEquals(RomanArabicConverter.RomanArabicConverter("xi"),"11");
+		assertEquals(RomanArabicConverter.RomanArabicConverter("mcm"),"1900");
+		assertEquals(RomanArabicConverter.RomanArabicConverter("xlv"),"45");
+		assertEquals(RomanArabicConverter.RomanArabicConverter("ivi"),"5");
+		assertEquals(RomanArabicConverter.RomanArabicConverter(""),"0");
 		
 
 	}

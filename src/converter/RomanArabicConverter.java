@@ -28,9 +28,16 @@ public class RomanArabicConverter {
 
 
 	
-	public RomanArabicConverter() throws MalformedNumberException {
-    	
-    	
+	public static String RomanArabicConverter(String input) throws MalformedNumberException {
+        input = input.toUpperCase(); //uppercases all the characters
+        input = input.trim(); // trims whitespace on either side.
+        
+        try {
+        	return RomanArabicConverter.toRoman(Integer.parseInt(input)).toString();
+        } catch (Exception e) {
+        	return RomanArabicConverter.toArabic(input).toString();
+        }  
+        	
     }
 
     /**
@@ -38,12 +45,11 @@ public class RomanArabicConverter {
      * 
      * @return The integer value of the number
      */
-    public static int toArabic(String Roman) throws MalformedNumberException{
-        int integerReturn = 0;
+    public static Integer toArabic(String Roman) throws MalformedNumberException{
+        Integer integerReturn = 0;
         int stringLength = Roman.length();
         int multRomanCount = 0;
-        Roman = Roman.toUpperCase(); //uppercases all the characters
-        Roman = Roman.trim();
+
         char[] romanChar = Roman.toCharArray();
         
         int[] romanInt = romanToInteger(romanChar);
@@ -150,7 +156,7 @@ public class RomanArabicConverter {
     	
     	return "I";
     }
-    
-    
+
+
     
 }
