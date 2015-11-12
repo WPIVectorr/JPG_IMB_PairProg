@@ -16,26 +16,29 @@ public class TestClass {
 		assertEquals(RomanArabicConverter.RomanArabicConverter("xi"),"11");
 		assertEquals(RomanArabicConverter.RomanArabicConverter("mcm"),"1900");
 		assertEquals(RomanArabicConverter.RomanArabicConverter("xlv"),"45");
-		assertEquals(RomanArabicConverter.RomanArabicConverter("ivi"),"5");
 		assertEquals(RomanArabicConverter.RomanArabicConverter(""),"0");
+		
 		
 
 	}
 	
 	@Test
-	public void validInputArabic() throws ValueOutOfBoundsException {
+	public void validInputArabic() throws MalformedNumberException {
 		try{
-			System.out.println(RomanArabicConverter.toRoman(1));
-			System.out.println(RomanArabicConverter.toRoman(9));
-			System.out.println(RomanArabicConverter.toRoman(3000));
-			System.out.println(RomanArabicConverter.toRoman(50));
+			assertEquals(RomanArabicConverter.RomanArabicConverter("3000"), "MMM");
+			assertEquals(RomanArabicConverter.RomanArabicConverter("9"),"IX");
+			assertEquals(RomanArabicConverter.RomanArabicConverter("11"),"XI");
+			assertEquals(RomanArabicConverter.RomanArabicConverter("1900"),"MCM");
+			assertEquals(RomanArabicConverter.RomanArabicConverter("45"),"XLV");
+			assertEquals(RomanArabicConverter.RomanArabicConverter("5"),"V");
+			assertEquals(RomanArabicConverter.RomanArabicConverter("0"),"");
 		}
-		catch(ValueOutOfBoundsException e)
+		catch(MalformedNumberException e)
 		{
 			System.out.println(e);
 		}
 	}
-	
+/*	
 	@Test
 	public void invalidInputRoman() throws MalformedNumberException {
 		try{
@@ -50,6 +53,6 @@ public class TestClass {
 		{
 			System.out.println(e);
 		}
-	}
+	}*/
 
 }
