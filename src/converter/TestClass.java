@@ -10,7 +10,9 @@ public class TestClass {
 
 
 	@Test
-	public void correctInputRoman() throws MalformedNumberException {
+	public void correctInputRoman() throws MalformedNumberException,ValueOutOfBoundsException {
+		try{
+		//test valid input to the roman to arabic converter
 		assertEquals(RomanArabicConverter.RomanArabicConverter("  MMM  "), "3000");
 		assertEquals(RomanArabicConverter.RomanArabicConverter("ix"),"9");
 		assertEquals(RomanArabicConverter.RomanArabicConverter("xi"),"11");
@@ -18,12 +20,15 @@ public class TestClass {
 		assertEquals(RomanArabicConverter.RomanArabicConverter("xlv"),"45");
 		assertEquals(RomanArabicConverter.RomanArabicConverter(""),"0");
 		
-		
+		}catch(MalformedNumberException e)
+		{
+			System.out.println(e);
+		}
 
 	}
 	
 	@Test
-	public void validInputArabic() throws MalformedNumberException {
+	public void validInputArabic() throws MalformedNumberException, ValueOutOfBoundsException {
 		try{
 			assertEquals(RomanArabicConverter.RomanArabicConverter("3000"), "MMM");
 			assertEquals(RomanArabicConverter.RomanArabicConverter("9"),"IX");
@@ -33,7 +38,7 @@ public class TestClass {
 			assertEquals(RomanArabicConverter.RomanArabicConverter("5"),"V");
 			assertEquals(RomanArabicConverter.RomanArabicConverter("0"),"");
 		}
-		catch(MalformedNumberException e)
+		catch(ValueOutOfBoundsException e)
 		{
 			System.out.println(e);
 		}
