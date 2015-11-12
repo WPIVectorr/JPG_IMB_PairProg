@@ -28,21 +28,25 @@ public class RomanArabicConverter {
 	 *             will still be accepted by this constructor.
 	 */
 
-	public static String RomanArabicConverter(String input) throws MalformedNumberException {
+	public static String RomanArabicConverter(String input) throws MalformedNumberException, ValueOutOfBoundsException {
 		input = input.toUpperCase(); // uppercases all the characters
 		input = input.trim(); // trims whitespace on either side.
 
+		
+		//parses input to determine function to use
 		try {
-			return RomanArabicConverter.toRoman(Integer.parseInt(input)).toString();
+				return RomanArabicConverter.toRoman(Integer.parseInt(input)).toString();
 		} catch (Exception e) {
-			return RomanArabicConverter.toArabic(input).toString();
+			//if the above excepts, it means we have roman numerals, or text and the following runs.
+				return RomanArabicConverter.toArabic(input).toString();			
 		}
+		
 
 	}
 
 	/**
 	 * Returns the value of this object as an Arabic number.
-	 * 
+	 * @param String roman ->roman numerals to be converted
 	 * @return The integer value of the number
 	 */
 	public static Integer toArabic(String Roman) throws MalformedNumberException {
@@ -50,24 +54,28 @@ public class RomanArabicConverter {
 		int stringLength = Roman.length();
 		int multRomanCount = 0;
 
-		char[] romanChar = Roman.toCharArray();
+		char[] romanChar = Roman.toCharArray();		//breaks the roman into an array of chars
+		int[] romanInt = romanToInteger(romanChar);	//transforms the roman characters into an integer array
 
-		int[] romanInt = romanToInteger(romanChar);
-
-		// traverse integer array to add/subtract together
+		//the below sanitzes and sums the array of integers to create a number.
+		
+		
 		// ends at array-1 because of addition condition
-		for (int i = 0; i < romanInt.length - 1; i++) {
+		for (int i = 0; i < romanInt.length - 1; i++) 
+		{
 
-			if (romanInt[i] == romanInt[i + 1])// handles three characters the
-												// same
+			if (romanInt[i] == romanInt[i + 1])// handles the formatting of the roman to ensure it is correct
 				multRomanCount++;
 			else
 				multRomanCount = 0;
-			if (multRomanCount > 2) {
+			
+			
+			if (multRomanCount > 2) 
 				throw new MalformedNumberException("Three Numerals Together");
-			}
 
-			if (romanInt[i] < romanInt[i + 1]) {
+			//ensures input formed correctly, notably the subtraction case of "IX" and the like.
+			if (romanInt[i] < romanInt[i + 1]) 
+			{
 				// sanitzes for decimal congruity
 				if (romanInt[i] % 10 != 0 && romanInt[i] != 1)
 					throw new MalformedNumberException("subtraction not Div 10!");
@@ -80,9 +88,11 @@ public class RomanArabicConverter {
 				integerReturn -= romanInt[i];
 			}
 
-			if (romanInt[i] >= romanInt[i + 1]) {
+			//adds numbers together for the actual total 
+			//numbers only added if the preceding is larger than the following
+			if (romanInt[i] >= romanInt[i + 1]) 
 				integerReturn += romanInt[i];
-			}
+			
 
 		}
 
@@ -90,12 +100,20 @@ public class RomanArabicConverter {
 
 	}
 
+	/*
+	 * transforms roman numerals into integer values
+	 * @param char[] romanChar array of roman numerals to be represented as integers
+	 * @return int[] returns an array of integers
+	 * 
+	*/
 	public static int[] romanToInteger(char[] romanChar) throws MalformedNumberException {
-		int[] romanInt = new int[romanChar.length + 1];// allows for EoA
-														// handling
+		int[] romanInt = new int[romanChar.length + 1];// allows for EoA handling
 
+		
+		//traverses the array, converting each element as it goes through
 		for (int i = 0; i < romanChar.length; i++) {
 			// I V X L C D M Q Z
+			//Set of if statements determines the number that will be added to the final Roman Integer
 			if (romanChar[i] == 'I') {
 				romanInt[i] = 1;
 			} else if (romanChar[i] == 'V') {
@@ -125,33 +143,40 @@ public class RomanArabicConverter {
 
 	/**
      * Returns the value of this object as a Roman Numeral
+     * The algorithm cannot handle negative numbers or non-integer sized numbers.
      * 
      * @return
      * @throws ValueOutOfBoundsException if the number is too small or too large
      *             to be represented using Roman numerals
      */
     public static String toRoman(int input) throws ValueOutOfBoundsException {
+    	//different strategy on this one, using associated values to convert to roman numerals
+    	
+    	//this algorithm cannot handle negative numbers.
+    	if(input<0)
+    		throw new ValueOutOfBoundsException("Negative numbers cannot be computed");
+    
+    	
+    	//essential a hashmap of roman numerals and their associated values
 		String[] descendingRoman = new String[]{"Z", "MZ", "Q", "MQ", "M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
 		int[] descendingArabic = new int[]{10000, 9000, 5000, 4000, 1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
-		String finalRoman = "";
+		String finalRoman = "";//initializes string to NULL
 	
 
-		
-		//while(input > 0){
-		//for loop traverses the numbers, then adds roman to the cat'ing string.
+		//for loop traverses the numbers, then adds roman to the cat'ing string. 
+		//exits when the arabic value is less than the smallest value in the array.
 			for(int i = 0; i < descendingArabic.length; i++){
 			
-				if(descendingArabic[i] <= input){
-					
-					
+				//goes through the above arrays, once it reaches the value immediately less than the integer value, it adds
+				//it to the String of characters.
+				if(descendingArabic[i] <= input){					
 					finalRoman += descendingRoman[i];
 					input -= descendingArabic[i];
 					
-					i=0;
+					i=0;//starts at the beginning to allow for multiple values
 				}
 			
 			}	
-		//}
 
     	return finalRoman;
     }
